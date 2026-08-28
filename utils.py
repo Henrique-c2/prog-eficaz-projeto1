@@ -1,8 +1,7 @@
-
 import json
 
 def load_data(nome_arquivo):
-    with open(f"static/data/{nome_arquivo}", "r") as arquivo_json:
+    with open(f"static/data/{nome_arquivo}", "r",encoding="utf-8") as arquivo_json:
         texto = arquivo_json.read()
 
         dicionario = json.loads(texto)
@@ -10,7 +9,7 @@ def load_data(nome_arquivo):
 
     
 def load_template (nome_arquivo):
-    with open(f"static/templates/{nome_arquivo}","r") as template:
+    with open(f"static/templates/{nome_arquivo}","r",encoding="utf-8") as template:
         texto = template.read()
 
         return texto

@@ -1,0 +1,135 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 30px;
+    background-color: #f4f4f4;
+    font-family: Arial, sans-serif;
+    color: #252525;
+}
+
+/* Logo */
+body > img {
+    display: block;
+    width: 280px;
+    max-width: 80%;
+    height: auto;
+    margin: 0 auto 15px;
+}
+
+/* Texto abaixo do logo */
+body > p {
+    text-align: center;
+    color: #555;
+    margin-bottom: 25px;
+}
+
+/* Formulário */
+form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    max-width: 800px;
+    margin: 0 auto 35px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+}
+
+input {
+    padding: 9px;
+    border: 1px solid #bbb;
+    border-radius: 6px;
+}
+
+input[type="submit"] {
+    padding: 10px 18px;
+    border: none;
+    background-color: #f5bb24;
+    color: #252525;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover {
+    background-color: #dda91f;
+}
+
+/* Área que contém as notas */
+ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 25px;
+    max-width: 1100px;
+    margin: auto;
+    padding: 0;
+    list-style: none;
+}
+
+/* Formato padrão de cada anotação */
+li {
+    width: 220px;
+    min-height: 220px;
+    padding: 22px;
+    overflow-wrap: break-word;
+    background-color: #fff475;
+    box-shadow: 4px 5px 10px rgba(0, 0, 0, 0.18);
+    transform: rotate(-1deg);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+li h3 {
+    margin-top: 0;
+    font-size: 20px;
+}
+
+li p {
+    line-height: 1.5;
+}
+
+/* Alternância das cores */
+li:nth-child(4n + 1) {
+    background-color: #fff475;
+}
+
+li:nth-child(4n + 2) {
+    background-color: #fbbc04;
+    transform: rotate(1deg);
+}
+
+li:nth-child(4n + 3) {
+    background-color: #ccff90;
+}
+
+li:nth-child(4n + 4) {
+    background-color: #aecbfa;
+    transform: rotate(1deg);
+}
+
+/* Efeito ao passar o mouse */
+li:hover {
+    transform: scale(1.05);
+    box-shadow: 6px 8px 15px rgba(0, 0, 0, 0.25);
+}
+form {
+    background-color: #fdecec;
+    border: 1px solid #f3caca;
+}
+
+form input:not([type="submit"]) {
+    background-color: #fffafa;
+    border: 1px solid #e8b8b8;
+}
+
+form input:not([type="submit"]):focus {
+    outline: none;
+    border-color: #d98c8c;
+    box-shadow: 0 0 0 3px rgba(217, 140, 140, 0.2);
+}
