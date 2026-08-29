@@ -1,4 +1,4 @@
-from utils import load_data, load_template, add_form, delete_note,get_note,update_note
+from utils import load_data, load_template, add_form, delete_note,get_note,update_note,toggle_favorite
 def index():
     note_template = load_template("components/note.html")
 
@@ -6,7 +6,9 @@ def index():
         note_template.format(
             id=dados["id"],
             title=dados["titulo"],
-            details=dados["detalhes"]
+            details=dados["detalhes"],
+            favorite_class="favorite" if dados["favorita"] else "",
+            favorite_icon="★" if dados["favorita"] else "☆"
         )
         for dados in load_data()
     ]
@@ -33,6 +35,8 @@ def edit(note_id):
         details=note.detalhes
     )
 
-
 def update(note_id, titulo, detalhes):
     update_note(note_id, titulo, detalhes)
+
+def favorite(note_id):
+    toggle_favorite(note_id)

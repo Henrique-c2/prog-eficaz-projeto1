@@ -42,5 +42,10 @@ def update_note():
 
     return redirect("/")
 
+@app.route("/favorite/<int:note_id>")
+def favorite_note(note_id):
+    views.favorite(note_id)
+    return redirect("/")
+
 if __name__ == '__main__':
     app.run(debug=True)
