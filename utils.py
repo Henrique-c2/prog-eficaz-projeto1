@@ -2,6 +2,11 @@ import sqlite3
 
 nome_banco = "banco.db"
 
+class Note:
+    def __init__(self, id, titulo, detalhes):
+        self.id = id
+        self.titulo = titulo
+        self.detalhes = detalhes
 
 def get_connection():
     conexao = sqlite3.connect(nome_banco)
@@ -70,6 +75,44 @@ def delete_note(note_id):
     cursor.execute(
         "DELETE FROM notes WHERE id = ?",
         (note_id,)
+    )
+
+    conexao.commit()
+    conexao.close()
+
+def get_note(note_id):
+    conexao = get_connection()
+    cursor = conexao.cursor()
+
+    cursor.execute(
+        "SELECT id, titulo, detalhes FROM notes WHERE id = ?",
+        (note_id,)
+    )
+
+    resultado = cursor.fetchone()
+    conexao.close()
+
+    if resultado is None:
+        return None
+
+    return Note(
+        id=resultado[0],
+        titulo=resultado[1],
+        detalhes=resultado[2]
+    )
+
+
+def update_note(note_id, titulo, detalhes):
+    conexao = get_connection()
+    cursor = conexao.cursor()
+
+    cursor.execute(
+        """
+        UPDATE notes
+        SET titulo = ?, detalhes = ?
+        WHERE id = ?
+        """,
+        (titulo, detalhes, note_id)
     )
 
     conexao.commit()

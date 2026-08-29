@@ -1,4 +1,4 @@
-from utils import load_data, load_template, add_form, delete_note
+from utils import load_data, load_template, add_form, delete_note,get_note,update_note
 def index():
     note_template = load_template("components/note.html")
 
@@ -20,3 +20,19 @@ def submit(titulo, detalhes):
 
 def delete(note_id):
     delete_note(note_id)
+
+def edit(note_id):
+    note = get_note(note_id)
+
+    if note is None:
+        return "Anotação não encontrada"
+
+    return load_template("edit.html").format(
+        id=note.id,
+        title=note.titulo,
+        details=note.detalhes
+    )
+
+
+def update(note_id, titulo, detalhes):
+    update_note(note_id, titulo, detalhes)
