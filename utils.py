@@ -7,7 +7,6 @@ def get_connection():
     conexao = sqlite3.connect(nome_banco)
     return conexao
 
-
 def init_db():
     conexao = get_connection()
     cursor = conexao.cursor()
@@ -28,21 +27,19 @@ def load_data(nome_arquivo=None):
     conexao = get_connection()
     cursor = conexao.cursor()
 
-    cursor.execute("SELECT titulo, detalhes FROM notes")
+    cursor.execute("SELECT id, titulo, detalhes FROM notes")
     resultados = cursor.fetchall()
 
     conexao.close()
-
     notas = [
         {
-            "titulo": resultado[0],
-            "detalhes": resultado[1]
+            "id": resultado[0],
+            "titulo": resultado[1],
+            "detalhes": resultado[2]
         }
         for resultado in resultados
     ]
-
     return notas
-
 
 def load_template(nome_arquivo):
     with open(
@@ -61,6 +58,18 @@ def add_form(titulo, detalhes):
     cursor.execute(
         "INSERT INTO notes (titulo, detalhes) VALUES (?, ?)",
         (titulo, detalhes)
+    )
+
+    conexao.commit()
+    conexao.close()
+
+def delete_note(note_id):
+    conexao = get_connection()
+    cursor = conexao.cursor()
+
+    cursor.execute(
+        "DELETE FROM notes WHERE id = ?",
+        (note_id,)
     )
 
     conexao.commit()
