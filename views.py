@@ -5,8 +5,8 @@ def index():
     notes_li = [
         note_template.format(
             id=dados["id"],
-            title=dados["titulo"],
-            details=dados["detalhes"],
+            title=dados["title"],
+            details=dados["content"],
             favorite_class="favorite" if dados["favorita"] else "",
             favorite_icon="★" if dados["favorita"] else "☆"
         )
@@ -31,8 +31,8 @@ def edit(note_id):
 
     return load_template("edit.html").format(
         id=note.id,
-        title=note.titulo,
-        details=note.detalhes
+        title=note.title,
+        details=note.content
     )
 
 def update(note_id, titulo, detalhes):

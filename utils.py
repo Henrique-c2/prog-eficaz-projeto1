@@ -3,10 +3,10 @@ import sqlite3
 nome_banco = "banco.db"
 
 class Note:
-    def __init__(self, id, titulo, detalhes, favorita=0):
+    def __init__(self, id, title, content, favorita=0):
         self.id = id
-        self.titulo = titulo
-        self.detalhes = detalhes
+        self.title = title
+        self.content = content
         self.favorita = favorita
 
 def get_connection():
@@ -18,21 +18,21 @@ def init_db():
     cursor = conexao.cursor()
 
     cursor.execute("""
-        CREATE TABLE IF NOT EXISTS notes (
+        CREATE TABLE IF NOT EXISTS note (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            titulo TEXT NOT NULL,
-            detalhes TEXT NOT NULL,
+            title TEXT NOT NULL,
+            content TEXT NOT NULL,
             favorita INTEGER NOT NULL DEFAULT 0
         )
     """)
 
     # Atualiza bancos que já existiam antes da fase 5
-    cursor.execute("PRAGMA table_info(notes)")
+    cursor.execute("PRAGMA table_info(note)")
     colunas = [coluna[1] for coluna in cursor.fetchall()]
 
     if "favorita" not in colunas:
         cursor.execute("""
-            ALTER TABLE notes
+            ALTER TABLE note
             ADD COLUMN favorita INTEGER NOT NULL DEFAULT 0
         """)
 
@@ -45,8 +45,8 @@ def load_data(nome_arquivo=None):
     cursor = conexao.cursor()
 
     cursor.execute("""
-        SELECT id, titulo, detalhes, favorita
-        FROM notes
+        SELECT id, title, content, favorita
+        FROM note
         ORDER BY favorita DESC, id ASC
     """)
 
@@ -56,8 +56,8 @@ def load_data(nome_arquivo=None):
     notas = [
         {
             "id": resultado[0],
-            "titulo": resultado[1],
-            "detalhes": resultado[2],
+            "title": resultado[1],
+            "content": resultado[2],
             "favorita": resultado[3]
         }
         for resultado in resultados
@@ -75,13 +75,13 @@ def load_template(nome_arquivo):
         return texto
 
 
-def add_form(titulo, detalhes):
+def add_form(title, content):
     conexao = get_connection()
     cursor = conexao.cursor()
 
     cursor.execute(
-        "INSERT INTO notes (titulo, detalhes) VALUES (?, ?)",
-        (titulo, detalhes)
+        "INSERT INTO note (title, content) VALUES (?, ?)",
+        (title, content)
     )
 
     conexao.commit()
@@ -92,7 +92,7 @@ def delete_note(note_id):
     cursor = conexao.cursor()
 
     cursor.execute(
-        "DELETE FROM notes WHERE id = ?",
+        "DELETE FROM note WHERE id = ?",
         (note_id,)
     )
 
@@ -105,8 +105,8 @@ def get_note(note_id):
 
     cursor.execute(
         """
-        SELECT id, titulo, detalhes, favorita
-        FROM notes
+        SELECT id, title, content, favorita
+        FROM note
         WHERE id = ?
         """,
         (note_id,)
@@ -120,23 +120,23 @@ def get_note(note_id):
 
     return Note(
         id=resultado[0],
-        titulo=resultado[1],
-        detalhes=resultado[2],
+        title=resultado[1],
+        content=resultado[2],
         favorita=resultado[3]
     )
 
 
-def update_note(note_id, titulo, detalhes):
+def update_note(note_id, title, content):
     conexao = get_connection()
     cursor = conexao.cursor()
 
     cursor.execute(
         """
-        UPDATE notes
-        SET titulo = ?, detalhes = ?
+        UPDATE note
+        SET title = ?, content = ?
         WHERE id = ?
         """,
-        (titulo, detalhes, note_id)
+        (title, content, note_id)
     )
 
     conexao.commit()
@@ -147,7 +147,7 @@ def toggle_favorite(note_id):
     cursor = conexao.cursor()
 
     cursor.execute("""
-        UPDATE notes
+        UPDATE note
         SET favorita = CASE
             WHEN favorita = 1 THEN 0
             ELSE 1
